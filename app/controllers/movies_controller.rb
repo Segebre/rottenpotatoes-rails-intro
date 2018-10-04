@@ -20,7 +20,8 @@ class MoviesController < ApplicationController
 #        @movies = Movie.all
 #        @hilite = nil
 #    end
-    session[:ratings] = params[:ratings] || session[:ratings] || Hash[@all_ratings.map { |rating| [rating, '1'] }]
+    session[:ratings] = params[:ratings] || session[:ratings] || 
+        Hash[@all_ratings.map { |rating| [rating, '1'] }]
     @selected_ratings = session[:ratings]
  
     @sort = params[:order]
