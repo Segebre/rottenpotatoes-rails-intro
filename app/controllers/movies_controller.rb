@@ -12,21 +12,13 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
-#    case params[:order]
-#      when 'title', 'release_date'
-#        @movies = Movie.all.order(params[:order])
-#        @hilite = params[:order].to_sym
-#      else
-#        @movies = Movie.all
-#        @hilite = nil
-#    end
     session[:ratings] = params[:ratings] || session[:ratings] || 
         Hash[@all_ratings.map { |rating| [rating, '1'] }]
     @selected_ratings = session[:ratings]
  
-    @sort = params[:order]
+    session[:order] = params[:order] || session[:order]
+    @sort = session[:order]
     @movies = Movie.where(rating: @selected_ratings.keys).order(@sort)
-    
   end
 
   def new
