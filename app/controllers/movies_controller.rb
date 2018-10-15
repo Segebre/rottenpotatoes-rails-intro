@@ -11,13 +11,13 @@ class MoviesController < ApplicationController
   end
 
   def index
+#    byebug
     @all_ratings = Movie.ratings
-    session[:ratings] = params[:ratings] || session[:ratings] || 
+    @selected_ratings = session[:ratings] || 
         Hash[@all_ratings.map { |rating| [rating, '1'] }]
-    @selected_ratings = session[:ratings]
  
-    session[:order] = params[:order] || session[:order]
     @sort = session[:order]
+    
     @movies = Movie.where(rating: @selected_ratings.keys).order(@sort)
   end
 
@@ -46,6 +46,20 @@ class MoviesController < ApplicationController
     @movie = Movie.find(params[:id])
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
+    redirect_to movies_path
+  end
+
+  def filter
+#    byebug
+    session[:ratings] = params[:ratings] || session[:ratings]
+    flash.keep
+    redirect_to movies_path
+  end
+
+  def sort
+#    byebug
+    session[:order] = params[:order] || session[:order]
+    flash.keep
     redirect_to movies_path
   end
 

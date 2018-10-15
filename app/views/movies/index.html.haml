@@ -3,7 +3,7 @@
 
 %table#movies
   %thead
-    = form_tag movies_path, :method => :get, :id => 'ratings_form' do
+    = form_tag filter_movies_path, :method => :get, :id => 'ratings_form' do
       Include:
       - @all_ratings.each do |rating|
         = rating
@@ -12,12 +12,10 @@
       = submit_tag 'Refresh', :id => 'ratings_submit'
     %tr
       %th{class: ('hilite' if @sort == 'title')}
-        = link_to "Movie Title", movies_path(order: :title, 
-          ratings: session[:ratings]), id: 'title_header'
+        = link_to "Movie Title", sort_movies_path(order: :title), id: 'title_header'
       %th Rating
       %th{class: ('hilite' if @sort == 'release_date')}
-        = link_to "Release Date", movies_path(order: :release_date, 
-          ratings: session[:ratings]), id: 'release_date_header'
+        = link_to "Release Date", sort_movies_path(order: :release_date), id: 'release_date_header'
       %th More Info
   %tbody
     - @movies.each do |movie|
@@ -28,3 +26,5 @@
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
+
+// = session.clear
